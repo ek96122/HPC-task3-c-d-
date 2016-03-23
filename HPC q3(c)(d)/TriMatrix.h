@@ -52,28 +52,28 @@ public:
     vector<double> multi(vector <double> U){
         int D =diag->size();
         vector <double> U2(D),a(D),b(D),c(D);
-    
+        
+        
+        //U2 = new vector<double>(D);
         
         
         for (int i=0; i<D; i++){
-            a[i]=(*diag)[i]*U[i];
+            a[i]=(*diag)[i]*(U)[i];
         }
         for (int i=1; i<D; i++){
-            b[i]=(*l_diag)[i-1]*U[i-1];
+            b[i]=(*l_diag)[i-1]*(U)[i-1];
             
         }
         for (int i=0; i<(D-1); i++) {
-            c[i]=(*u_diag)[i]*U[i+1];
+            c[i]=(*u_diag)[i]*(U)[i+1];
         }
         for (int i=0; i<(D-1); i++) {
-            U2[i] = a[i] + b[i] + c[i];
+            (U2)[i] = a[i] + b[i] + c[i];
         }
-        U2[0]=a[0]+b[0]; //compatibility check on 1st row
-        U2[D-1]=a[D-1]+c[D-1];//compatibility check on last row
-        
+        (U2)[0]=a[0]+b[0]; //compatibility check on 1st row
+        (U2)[D-1]=a[D-1]+c[D-1];//compatibility check on last row
         return U2;
     }
-    
     
     
     //Implement matrix-vector solve operation using Thomas algorithm

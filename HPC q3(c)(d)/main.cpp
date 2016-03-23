@@ -50,6 +50,7 @@ int main(){
     vector<double> u0((Nx+1));
     vector<double> u1(Nx+1);
     vector<double> u2(Nx+1);
+    vector<double> u3(Nx+1);
     
     
     //Defining x-vector
@@ -76,16 +77,17 @@ int main(){
     
     //create tridiagonal matrix using TriMatrix class constructor
     
-    TriMatrix LH(Nx, theta * nu);
-    TriMatrix RH(Nx, (1-theta) * nu);
+    TriMatrix Left(Nx, theta * nu);
+    TriMatrix Right(Nx, (1-theta) * nu);
     
 
-    LH.displayM();
-    RH.displayM();
+    Left.displayM();
+    Right.displayM();
     
     for (double i=0; i<(T-dt); i=i+dt) {
-        u2=LH/RH.multi(u1);
-        u1=u2;
+        u2=(Right.multi(u1));
+        u3=Left/u2;
+        u1 = u3;
     }
     
     
