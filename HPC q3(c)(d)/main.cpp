@@ -13,7 +13,7 @@
 using namespace std;
 
 int main(){
-    double L, T, alpha, dt, theta;
+    double L, T, alpha, dt, theta, nutheta;
     int Nx;
     
     
@@ -42,6 +42,7 @@ int main(){
     double nu = alpha*dt/dx/dx;
     double gamma0 = 0;
     double gamma1 = 0;
+    nutheta = nu*theta;
     
     
     //Defining all BASIC vectors used in the programme
@@ -77,22 +78,23 @@ int main(){
     
     //create tridiagonal matrix using TriMatrix class constructor
     
-    TriMatrix Left(Nx, theta * nu);
-    TriMatrix Right(Nx, (1-theta) * nu);
+    TriMatrix Left(Nx, nu);
+    TriMatrix Right(Nx, nu);
     
 
     Left.displayM();
     Right.displayM();
     
-    for (double i=0; i<(T-dt); i=i+dt) {
-        u2=(Right.multi(u1));
-        u3=Left/u2;
-        u1 = u3;
+    for (double i=0; i<(T-dt); i+=dt) {
+        u2=Right.multi(u1);
+        u1=u2;
     }
     
+    for (int i=0; i<(u1).size(); i++){
+        cout << (u1)[i] << endl;
+    }
+
+
     
-    
-    return 0;
-    
-    
+        return 0;
 }
