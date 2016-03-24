@@ -34,12 +34,12 @@ public:
         u_diag = new vector<double>(Nx);
         
         for (int i = 0; i < Nx + 1; i++){
-            (*diag)[i] = 1+2*nu;
+            (*diag)[i] = 1-2*nu;
         }
         
         for (int i = 0; i < Nx; i++){
-            (*l_diag)[i] = -nu;
-            (*u_diag)[i] = -nu;
+            (*l_diag)[i] = nu;
+            (*u_diag)[i] = nu;
         }
         (*diag)[0] = 1;
         (*diag)[Nx] = 1;
@@ -54,29 +54,26 @@ public:
         vector <double> U2(D),a(D),b(D),c(D);
         
         
-        //U2 = new vector<double>(D);
-        
-        
         for (int i=0; i<D; i++){
-            a[i]=(*diag)[i]*(U)[i];
+            a[i]=(*diag)[i]*U[i];
         }
         for (int i=1; i<D; i++){
-            b[i]=(*l_diag)[i-1]*(U)[i-1];
+            b[i]=(*l_diag)[i-1]*U[i-1];
             
         }
         for (int i=0; i<(D-1); i++) {
-            c[i]=(*u_diag)[i]*(U)[i+1];
+            c[i]=(*u_diag)[i]*U[i+1];
         }
         for (int i=0; i<(D-1); i++) {
-            (U2)[i] = a[i] + b[i] + c[i];
+            U2[i] = a[i] + b[i] + c[i];
         }
-        (U2)[0]=a[0]+b[0]; //compatibility check on 1st row
-        (U2)[D-1]=a[D-1]+c[D-1];//compatibility check on last row
+        U2[0]=a[0]+b[0]; //compatibility check on 1st row
+        U2[D-1]=a[D-1]+c[D-1];//compatibility check on last row
+        
         return U2;
     }
     
     
-    //Implement matrix-vector solve operation using Thomas algorithm
     
     vector<double> operator/(vector <double> U){
         int D = diag->size();
@@ -104,26 +101,20 @@ public:
         
         for (int i=D-2; i>=0; i--){
             U2[i]=(U[i]-(*u_diag)[i]*U2[i+1])/newdiag[i];
-            //cout<<i<<" ";
+            
             
         }
         
         
-        cout << endl << "U2: " << endl;
-        for(int i=0; i<D; i++) cout << (U2)[i] << ", ";
-        cout<<endl;
+        //cout << endl << "U2: " << endl;
+        //for(int i=0; i<D; i++) cout << (U2)[i] << ", ";
+        //cout<<endl;
         
         return U2;
         
         
     }
-    
-    
-    
-    
-    
-    
-    
+
     
     
     
@@ -141,13 +132,12 @@ public:
         for(int i=0; i<(*diag).size(); i++) cout << (*diag)[i] << ", ";
         cout<<endl;
         
-        cout<<endl;
-        
     }
     
     
     
 };
+
 
 
 #endif /* TriMatrix_h */
