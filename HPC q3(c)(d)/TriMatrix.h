@@ -24,7 +24,7 @@ private:
 public:
     //CONSTRUCTOR
     
-    TriMatrix(vector<double> *p,vector<double> *q, vector<double> *r):
+    TriMatrix(vector <double> *p,vector<double> *q, vector<double> *r):
     
     l_diag(p), diag(q), u_diag(r) {};
     
